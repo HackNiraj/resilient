@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Flutter Plugins" type="FlutterPluginsLibraryType">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../../../Flutter/flutter_windows_1.22.2-stable/flutter/.pub-cache/hosted/pub.dartlang.org/sms-0.2.4" />
+      <root url="file://$PROJECT_DIR$/../../../Flutter/flutter_windows_1.22.2-stable/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_statusbarcolor-0.2.3" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
