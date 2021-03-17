@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:resilient/chat_messenger/messenger_view.dart';
 import 'package:resilient/constants/fonts.dart';
 
 class RecentChats extends StatefulWidget {
@@ -48,7 +49,10 @@ class RecentChatTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return RaisedButton(
       onPressed: () {
-
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ChatScreen())
+        );
       },
       color: Color(0xFFFFEFEE),
       elevation: 0,

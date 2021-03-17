@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:resilient/chat_messenger/recent_chats.dart';
 import 'package:resilient/constants/fonts.dart';
+import 'package:resilient/main_app_screen/home/home_page.dart';
 
 class ChatApplication extends StatefulWidget {
   @override
@@ -14,10 +15,13 @@ class _ChatApplicationState extends State<ChatApplication> {
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.menu),
+          icon: Icon(Icons.arrow_back),
           iconSize: 30,
           color: Colors.white,
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+            Navigator.push(context, MaterialPageRoute(builder: (context) => UserHomePage()));
+          },
         ),
         title: Text(
           'Chats',

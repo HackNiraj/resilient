@@ -1,6 +1,9 @@
+import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:resilient/Encryption/encryption.dart';
+import 'package:resilient/Utils/daywise_time_stamp.dart';
+import 'package:resilient/chat_messenger/chat_app.dart';
 import 'package:resilient/constants/fonts.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -10,6 +13,7 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  Encrypted encrypt;
   var messages = [
     'Hello',
     'How are you',
@@ -20,7 +24,7 @@ class _ChatScreenState extends State<ChatScreen> {
   bool send = false;
   double changedHeight = 1 / 3;
   bool opened = false;
-  String assetImage = "assets/images/download.jpg";
+  String assetImage = "res/assets/images/download.jpg";
   OverlayState overlayState;
   OverlayEntry _overlayEntry;
 
@@ -29,10 +33,10 @@ class _ChatScreenState extends State<ChatScreen> {
 
   _buildMessage(String message, bool isMe, bool giveSpace, String timeStamp) {
     Widget msg = Container(
-        alignment: true? Alignment.centerRight : Alignment.centerLeft,
+        alignment: isMe? Alignment.centerRight : Alignment.centerLeft,
         margin: EdgeInsets.symmetric(horizontal: 8),
         child: Card(
-          color: true ? Theme.of(context).accentColor : Color(0xFFFFEFEE),
+          color: isMe ? Theme.of(context).accentColor : Color(0xFFFFEFEE),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(15),
@@ -40,9 +44,9 @@ class _ChatScreenState extends State<ChatScreen> {
                   topRight: Radius.circular(15),
                   bottomRight: Radius.circular(15))
           ),
-          margin: true
-              ? EdgeInsets.only(bottom: 2, top: true? 8 : 0, left: MediaQuery.of(context).size.width - MediaQuery.of(context).size.width*0.75)
-              : EdgeInsets.only(bottom: 2, top: true? 8 : 0, right: MediaQuery.of(context).size.width - MediaQuery.of(context).size.width*0.75),
+          margin: isMe
+              ? EdgeInsets.only(bottom: 2, top: giveSpace? 8 : 0, left: MediaQuery.of(context).size.width - MediaQuery.of(context).size.width*0.75)
+              : EdgeInsets.only(bottom: 2, top: giveSpace? 8 : 0, right: MediaQuery.of(context).size.width - MediaQuery.of(context).size.width*0.75),
           child: Stack(
             children: <Widget>[
               Padding(
@@ -51,7 +55,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   text: TextSpan(
                     children: <TextSpan>[
                       TextSpan(
-                          text: Encryption.decryptAES(message) + "    ",
+                          text: message,//Encryption.decryptAES(encrypt) + "    ",
                           style: TextStyle(
                               color: Colors.blueGrey,
                               fontWeight: FontWeight.w600,
@@ -170,7 +174,7 @@ class _ChatScreenState extends State<ChatScreen> {
             onTap: (){
               if(RegExp(r"\S").hasMatch(messageController.text)) {
                 final encrypt = Encryption.encryptAES(messageController.text);
-                messageController.text = encrypt;
+                this.encrypt = encrypt;
                 print(encrypt);
               }
             },
@@ -297,7 +301,8 @@ class _ChatScreenState extends State<ChatScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_outlined),
           onPressed: (){
-            
+            Navigator.pop(context);
+            Navigator.push(context, MaterialPageRoute(builder: (context) => ChatApplication()));
           },
         ),
         title: Row(
@@ -358,12 +363,12 @@ class _ChatScreenState extends State<ChatScreen> {
                       bottomLeft: Radius.circular(30),
                       bottomRight: Radius.circular(30)),
                   child: ListView.builder(
-                      reverse: true,
+                      reverse: false,
                       padding: EdgeInsets.only(top: 15),
                       itemCount: messages.length,
                       itemBuilder: (context, index) {
-
-                        return _buildMessage(messages[index], true, true, timeStamp);
+                        timeStamp = "";//new DateTimeDirectory().getVerboseDateTimeRepresentation(DateTime.now());
+                        return _buildMessage(messages[index], true, false, timeStamp);
                       }),
                 ),
               ),
